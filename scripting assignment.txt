@@ -1,0 +1,288 @@
+Assignment Shell scripts
+-----------------------------------------------------------
+1) Script for compress the files using zip and tar
+
+#!/bin/bash
+
+echo -e "Enter the compression type\n1)tar \n2)zip"
+echo "Enter any option from the above"
+read opt
+
+echo "Enter the folder name to compress"
+read foldername
+
+echo "Enter path to save the compressed file"
+read path
+
+filename="`date +%d`_`date +%m`_`date +%y`"
+
+case $opt in
+   1) tar -cvf $path/$filename.tar $foldername
+
+      cd $path
+
+      ls $path
+
+      du -sh
+;;
+   2) zip -r $path/$filename.zip $foldername
+
+      cd $path
+
+      ls $path
+
+      du -sh
+;;
+
+esac
+=================================================================
+2) Script to check file empty or not
+
+#!/bin/bash
+
+echo "Enter the Filename"
+read name
+
+if [ -s $name ];then
+echo " $name is not an empty file"
+else
+echo "$name is a empty file"
+fi
+=======================================================================================================
+3) Write a Script for calculator and modify the script menu option again until you choose explicitly
+#!/bin/bash
+
+echo "Below is the  Calculator Menu "
+
+PS3="Enter the option from the above: "
+select choice in Add Sub Mul Div Exit
+do
+
+case $choice in
+        'Add') echo "enter numbers to add"
+                read numbers
+                sum=0
+                for i in $numbers
+                 do
+                         sum=`expr $sum + $i`
+                 done
+                 echo "sum of $numbers is $sum"
+                 ;;
+        'Sub') echo "enter numbers to subsratct"
+                 echo "enter 1st number"
+                 read num1
+                 echo "enter 2nd number"
+                 read num2
+
+                 if [ $num1 -gt $num2 ];then
+
+                         sub=`expr $num1 - $num2`
+                 else
+                         sub=`expr $num2 - $num1`
+                 fi
+                 echo "sub of $num1 and $num2 is $sub"
+                 ;;
+        'Mul') echo "enter numbers to multiple "
+                 read numbers
+                 mul=1
+                 for i in $numbers
+                 do
+                  mul=`expr $mul \* $i`
+                 done
+                echo "multiplication of $numbers is $mul"
+                ;;
+        'Div') echo "enter numbers to Division"
+                 echo "enter 1st number"
+                 read num1
+                 echo "enter 2nd number"
+                 read num2
+
+                 if [ $num1 -gt $num2 ];then
+
+                         sub=`expr $num1 / $num2`
+                 else
+                         sub=`expr $num2 / $num1`
+                 fi
+                 echo "Division  of $num1 and $num2 is $sub"
+                 ;;
+
+         'Exit') if [ $choice == "Exit" ]
+                 then
+                 echo "You select a option to exit"
+                 break
+                 fi
+                 ;;
+ esac
+done
+==================================================================================
+4) Write a script to reverse a string
+
+#!/bin/bash
+
+echo "Enter the string to reverse"
+read string
+revstr=`echo $string | rev`
+echo "$revstr"
+==================================================================================
+5) write a script to find employees if thier age is between 30 and 50
+
+#!/bin/bash
+
+echo "Enter the filename"
+read name
+sed '1d' $name > temp
+
+while read line
+do
+age=`echo "$line" | awk -F " " '{print $NF}'`
+
+if [ $age -gt 30 ] && [ $age -lt 50 ]
+then
+echo "$line" | awk -F " " '{print $1,$NF}'
+fi
+
+done < temp
+===================================================================================
+6) write a sript to find  employees for given age
+
+#!/bin/bash
+
+echo "Enter the age"
+read eage
+sed '1d' $name > temp
+
+while read line
+do
+age=`echo "$line" | awk -F " " '{print $NF}'`
+
+if [ $age -eq $eage ]
+then
+echo "$line" | awk -F " " '{print $1,$NF}'
+fi
+
+done < temp
+====================================================================================
+7) schedule script to run last day of every month
+
+00 15 * 28-31 * * [ “$(date +\%d -d tomorrow)” = “01” ]  && /home/ec2-user/salary.sh
+====================================================================================
+8) Script to print the second smallest number in the given n number
+
+#!/bin/bash
+
+secondsmallest=`printf "%s\n" $@ | sort | head -2 | tail -1`
+
+echo " Second Smallest number is $secondsmallest"
+====================================================================================
+8) Script to print the second largest number in the given n number
+
+#!/bin/bash
+
+secondlargest=`printf "%s\n" $@ | sort | tail -2 | head -1`
+
+
+echo " Second largest number is $secondlargest"
+==================================================================================
+9) Hotel Menu
+
+#!/bin/bash
+
+echo -e "Welcome to the Hotel\nBelow is the Menu"
+
+    PS3="Enter your choice : "
+    select choice in Idly Dosa Poori Palav Hotbeverage Total Exit
+do
+case $choice in
+'Idly') echo "sub menu of Idly"
+
+        echo " 1. Rava idly - 20rs "
+        echo " 2. Tatte idly - 30rs "
+        echo " 3. Plain idly - 40rs "
+
+  read -p " enter the item number :"
+     case 4 item in
+
+         1) total =$(( total +20))
+            ;;
+         2) total =$(( total + 30))
+            ;;
+         3) total =$(( total + 40))
+            ;;
+  *) echo " invalid item number "
+            ;;
+esac
+            ;;
+  'Dosa') echo " sub menu of dosa :"
+
+           echo " 1. Masala dosa - 40rs"
+           echo " 2. plain dosa - 50rs"
+           echo " 3. onion dosa - 60rs"
+
+        read -p " enter the item number:"
+
+         1) total =$(( total + 40))
+                      ;;
+         2) taotal =$(( total + 50))
+                       ;;
+         3) total =$(( total + 60))
+                       ;;
+                *) echo " invalid item number "
+   esac
+ 'Palav') echo " sub menu of palav:"
+
+          echo " 1. veg Palav - 30rs"
+          echo " 2. Panner palav - 40rs"
+          echo " 3. Pudina palav - 50rs "
+  read -p " enter the item number :" item
+    case $ item in
+          1) total= $((total +30))
+            ;;
+          2) total =$((total +40))
+            ;;
+          3) total =$((total +50))
+            ;;
+       *) echo : invalid item number :"
+           ;;
+esac
+          ;;
+ 'Poori') echo " Sub menu of Poori :"
+
+          echo "1. Maida poori - 40rs" echo "2. Wheat poori - 50rs"
+          echo "3. Moondal poori - 60rs"
+ read -p " enter the item number:" item
+   case 4 item in
+
+       1) total =$((total + 30))
+            ;;
+       20 total =$((total + 40))
+            ;;
+       3) total =$((total + 50))
+            ;;
+           *) echo " invalid item number :"
+               ;;
+esac
+             ;;
+
+'Hotbeverages') echo Coffee/tea - 15rs "
+read-p " enter the item number:" item
+   case $ item in
+
+            1) total =$(( total + 15 ))
+            ;;
+  esac
+            ;;
+ 'Total') echo " total : $total "
+        ;;
+ 'Exit') echo " thank you for visiting !"
+       exit 0
+           ;;
+ *) echo " invalid choice please try again "
+      ;;
+esac
+
+done
+
+
+
+
+
